@@ -24,5 +24,11 @@ func (h *BookHandler) ListBooks(w http.ResponseWriter, r *http.Request, _ httpro
 	}
 
 	h.logger.Info("successfully returned books")
-	w.Write(booksJSON)
+
+	w.Header().Set("Content-Type", "application/json")
+
+	if _, err := w.Write(booksJSON); err != nil {
+		h.logger.Error(fmt.Sprintf("error writing books JSON: %v", err))
+		w.WriteHeader(http.StatusInternalServerError)
+	}
 }

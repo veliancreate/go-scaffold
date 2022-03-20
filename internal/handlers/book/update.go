@@ -7,6 +7,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/veliancreate/books-api/internal/entity"
+	"github.com/veliancreate/books-api/internal/handlers"
 )
 
 func (h *BookHandler) Update(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -18,17 +19,16 @@ func (h *BookHandler) Update(w http.ResponseWriter, r *http.Request, _ httproute
 
 	var updateDetails *entity.Book
 
-	err := dec.Decode(updateDetails)
+	err := dec.Decode(&updateDetails)
 	if err != nil {
-		h.logger.Error(fmt.Sprintf("could not read body: %v", err))
-		w.WriteHeader(http.StatusInternalServerError)
+		handlers.HandleJSONParsingError(err, w, h.logger)
 		return
 	}
 
 	err = updateDetails.Validate()
 	if err != nil {
 		h.logger.Error(fmt.Sprintf("book update validation error: %v", err))
-		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, "required field missing", http.StatusBadRequest)
 		return
 	}
 
@@ -47,6 +47,7 @@ func (h *BookHandler) Update(w http.ResponseWriter, r *http.Request, _ httproute
 	}
 
 	h.logger.Info("successfully updated book")
+
 	w.Header().Set("Content-Type", "application/json")
 
 	if _, err := w.Write(bookJSON); err != nil {

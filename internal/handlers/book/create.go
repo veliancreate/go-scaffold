@@ -7,6 +7,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/veliancreate/books-api/internal/entity"
+	"github.com/veliancreate/books-api/internal/handlers"
 )
 
 func (h *BookHandler) Create(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -19,17 +20,16 @@ func (h *BookHandler) Create(w http.ResponseWriter, r *http.Request, _ httproute
 
 	var bookToCreate *entity.Book
 
-	err := dec.Decode(bookToCreate)
+	err := dec.Decode(&bookToCreate)
 	if err != nil {
-		h.logger.Error(fmt.Sprintf("could not read body: %v", err))
-		w.WriteHeader(http.StatusInternalServerError)
+		handlers.HandleJSONParsingError(err, w, h.logger)
 		return
 	}
 
 	err = bookToCreate.Validate()
 	if err != nil {
 		h.logger.Error(fmt.Sprintf("book creation validation error: %v", err))
-		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, "required field missing", http.StatusBadRequest)
 		return
 	}
 
@@ -48,5 +48,11 @@ func (h *BookHandler) Create(w http.ResponseWriter, r *http.Request, _ httproute
 	}
 
 	h.logger.Info("successfully created book")
-	w.Write(bookJSON)
+
+	w.Header().Set("Content-Type", "application/json")
+
+	if _, err := w.Write(bookJSON); err != nil {
+		h.logger.Error(fmt.Sprintf("error writing books JSON: %v", err))
+		w.WriteHeader(http.StatusInternalServerError)
+	}
 }

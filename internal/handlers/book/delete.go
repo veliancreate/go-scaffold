@@ -24,4 +24,8 @@ func (h *BookHandler) Delete(w http.ResponseWriter, r *http.Request, p httproute
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+
+	h.logger.Info("book deleted")
+
+	w.WriteHeader(http.StatusNoContent)
 }
