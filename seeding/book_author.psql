@@ -1,0 +1,5 @@
+INSERT INTO book_author (id, book_id, author_id)
+  VALUES ('32d83227-09d1-4d67-a8f6-1f32f1edc23d', 'a4acae26-acaa-4821-a01f-b77eff5f9085', 'd85d5062-ef15-483d-b604-a10df3d4aee5');
+
+INSERT INTO book_author (id, book_id, author_id)
+  VALUES ('d9ccb924-95f4-433b-84ae-3d9a449e39bb', '68e7417c-05ce-403a-b21a-e876ce75c46e', '3ea2a911-2e90-40b5-b782-01981f8754f3');
