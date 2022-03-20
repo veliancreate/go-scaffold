@@ -43,8 +43,11 @@ func getRouter() *httprouter.Router {
 	)
 
 	router.GET("/books", bookListStack.Handle)
+
 	router.POST("/books", bookCreateStack.Handle)
+
 	router.PATCH("/books/:id", bookUpdateStack.Handle)
+
 	router.DELETE("/books/:id", bookDeleteStack.Handle)
 
 	return router

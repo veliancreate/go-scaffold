@@ -16,12 +16,12 @@ func Start() {
 
 	srv := &http.Server{
 		Handler:      router,
-		Addr:         fmt.Sprintf("127.0.0.1:%s", config.Port),
+		Addr:         fmt.Sprintf("127.0.0.1:%s", config.Server.Port),
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
 
-	log.Printf("starting server on port %s ...", config.Port)
+	log.Printf("starting server on port %s ...", config.Server.Port)
 
 	log.Fatal(srv.ListenAndServe())
 }

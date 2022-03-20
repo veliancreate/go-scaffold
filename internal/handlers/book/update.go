@@ -5,12 +5,22 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/julienschmidt/httprouter"
 	"github.com/veliancreate/books-api/internal/entity"
 	"github.com/veliancreate/books-api/internal/handlers"
 )
 
-func (h *BookHandler) Update(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func (h *BookHandler) Update(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	id := p.ByName("id")
+
+	parsedID, err := uuid.Parse(id)
+	if err != nil {
+		h.logger.Error(fmt.Sprintf("error parsing uuid %v", err))
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
 	r.Body = http.MaxBytesReader(w, r.Body, 20000)
 
 	dec := json.NewDecoder(r.Body)
@@ -19,7 +29,7 @@ func (h *BookHandler) Update(w http.ResponseWriter, r *http.Request, _ httproute
 
 	var updateDetails *entity.Book
 
-	err := dec.Decode(&updateDetails)
+	err = dec.Decode(&updateDetails)
 	if err != nil {
 		handlers.HandleJSONParsingError(err, w, h.logger)
 		return
@@ -32,7 +42,7 @@ func (h *BookHandler) Update(w http.ResponseWriter, r *http.Request, _ httproute
 		return
 	}
 
-	updatedBook, err := h.store.Create(*updateDetails)
+	updatedBook, err := h.store.Update(parsedID, *updateDetails)
 	if err != nil {
 		h.logger.Error(fmt.Sprintf("could not update book: %v", err))
 		w.WriteHeader(http.StatusInternalServerError)

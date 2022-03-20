@@ -38,7 +38,7 @@ func HandleJSONParsingError(err error, w http.ResponseWriter, errorLogger ErrorL
 		http.Error(w, msg, http.StatusBadRequest)
 		return
 	case errors.Is(err, io.EOF):
-		msg := "Request body must not be empty"
+		msg := "request body must not be empty"
 		http.Error(w, msg, http.StatusBadRequest)
 		return
 	case err.Error() == "http: request body too large":
