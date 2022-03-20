@@ -1,5 +1,7 @@
 package main
 
-func main() {
+import "github.com/veliancreate/books-api/internal/server"
 
+func main() {
+	server.Start()
 }

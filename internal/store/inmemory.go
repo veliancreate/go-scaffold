@@ -62,13 +62,13 @@ func (bs *InMemoryBookStore) Update(id uuid.UUID, bookUpdateDetails entity.Book)
 	return *book, nil
 }
 
-func (bs *InMemoryBookStore) Create(id uuid.UUID, bookUpdateDetails entity.Book) (entity.Book, error) {
+func (bs *InMemoryBookStore) Create(bookUpdateDetails entity.Book) (entity.Book, error) {
 	bs.books = append(bs.books, bookUpdateDetails)
 
 	return bookUpdateDetails, nil
 }
 
-func (bs *InMemoryBookStore) Delete(id uuid.UUID, bookUpdateDetails entity.Book) error {
+func (bs *InMemoryBookStore) Delete(id uuid.UUID) error {
 	var newBooks []entity.Book
 
 	for i := 0; i < len(bs.books); i++ {
