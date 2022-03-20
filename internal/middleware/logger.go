@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
@@ -25,9 +25,9 @@ func (l *Logger) Init(w http.ResponseWriter, r *http.Request, _ httprouter.Param
 }
 
 func (l *Logger) Info(message string) {
-	fmt.Printf("METHOD: %s; PATH: %s; MESSAGE: %s", l.method, l.path, message)
+	log.Printf("METHOD: %s; PATH: %s; MESSAGE: %s", l.method, l.path, message)
 }
 
 func (l *Logger) Error(message string) {
-	fmt.Printf("ERROR: METHOD: %s; PATH: %s; MESSAGE: %s", l.method, l.path, message)
+	log.Printf("ERROR: METHOD: %s; PATH: %s; MESSAGE: %s", l.method, l.path, message)
 }

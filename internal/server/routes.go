@@ -26,11 +26,29 @@ func getRouter() *httprouter.Router {
 
 	booksHandler := handlers.NewBookHandler(store, logger)
 
-	booksStack := middleware.NewMiddlewareStackHandler(
+	bookListStack := middleware.NewMiddlewareStackHandler(
 		append(mwareStack, booksHandler.ListBooks),
 	)
 
-	router.GET("/books", booksStack.Handle)
+	bookCreateStack := middleware.NewMiddlewareStackHandler(
+		append(mwareStack, booksHandler.Create),
+	)
+
+	bookUpdateStack := middleware.NewMiddlewareStackHandler(
+		append(mwareStack, booksHandler.Update),
+	)
+
+	bookDeleteStack := middleware.NewMiddlewareStackHandler(
+		append(mwareStack, booksHandler.Delete),
+	)
+
+	router.GET("/books", bookListStack.Handle)
+
+	router.POST("/books", bookCreateStack.Handle)
+
+	router.PATCH("/books/:id", bookUpdateStack.Handle)
+
+	router.DELETE("/books/:id", bookDeleteStack.Handle)
 
 	return router
 }
