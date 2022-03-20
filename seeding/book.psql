@@ -1,0 +1,5 @@
+INSERT INTO book (id, publisher_id, title, published_at, pages, created_at, updated_at)
+  VALUES ('a4acae26-acaa-4821-a01f-b77eff5f9085', '1c430cee-34ec-45e4-99b5-71bf0b6502c2', 'Lord of the Rings', '2022-03-02', 1000, '2022-03-02', '2022-03-02');
+
+INSERT INTO book (id, publisher_id, title, published_at, pages, created_at, updated_at)
+  VALUES ('68e7417c-05ce-403a-b21a-e876ce75c46e', '87159cff-bd36-4575-9678-bb4e10ab23a1', 'Harry Potter', '2022-03-02', 500, '2022-03-02', '2022-03-02');

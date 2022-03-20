@@ -1,0 +1,5 @@
+INSERT INTO author (id, name, created_at, updated_at)
+  VALUES ('d85d5062-ef15-483d-b604-a10df3d4aee5', 'JRR Tolkein', '2022-03-01', '2022-03-01');
+
+INSERT INTO author (id, name, created_at, updated_at)
+  VALUES ('3ea2a911-2e90-40b5-b782-01981f8754f3', 'JK Rowling', '2022-03-01', '2022-03-01');
