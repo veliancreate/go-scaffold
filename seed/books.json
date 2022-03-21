@@ -1,0 +1,16 @@
+[
+ {
+  "id": "98e4e8be-a790-41cb-8555-899e58840d20",
+  "title": "Blood Clot1",
+  "authors": [
+   {
+    "name": "J.K Rowling"
+   }
+  ],
+  "publisher": {
+   "name": "Hodder"
+  },
+  "published_at": "1900-01-01",
+  "pages": 100
+ }
+]

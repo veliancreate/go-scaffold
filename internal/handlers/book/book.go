@@ -7,9 +7,9 @@ import (
 
 type BookStore interface {
 	List() ([]entity.Book, error)
-	Create(bookDetails entity.Book) (entity.Book, error)
+	Create(bookDetails entity.Book) (*entity.Book, error)
 	Delete(id uuid.UUID) error
-	Update(id uuid.UUID, bookDetails entity.Book) (entity.Book, error)
+	Update(id uuid.UUID, bookDetails entity.Book) (*entity.Book, error)
 }
 
 type Logger interface {

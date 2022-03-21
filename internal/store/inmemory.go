@@ -17,12 +17,10 @@ func NewInMemoryBookStore() *InMemoryBookStore {
 				Title: "Lord of the Rings",
 				Authors: []entity.Author{
 					{
-						ID:   uuid.New(),
 						Name: "J.R.R Tolkein",
 					},
 				},
 				Publisher: entity.Publisher{
-					ID:   uuid.New(),
 					Name: "Penguin",
 				},
 				PublishedAt: "1st January 1900",

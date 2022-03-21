@@ -9,6 +9,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/veliancreate/books-api/internal/entity"
 	"github.com/veliancreate/books-api/internal/handlers"
+	"github.com/veliancreate/books-api/internal/store"
 )
 
 func (h *BookHandler) Update(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
@@ -45,6 +46,11 @@ func (h *BookHandler) Update(w http.ResponseWriter, r *http.Request, p httproute
 	updatedBook, err := h.store.Update(parsedID, *updateDetails)
 	if err != nil {
 		h.logger.Error(fmt.Sprintf("could not update book: %v", err))
+		if err == store.ErrNotFound {
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

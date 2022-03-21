@@ -2,12 +2,10 @@ package entity
 
 import (
 	"github.com/go-playground/validator"
-	"github.com/google/uuid"
 )
 
 type Author struct {
-	ID   uuid.UUID `json:"id"`
-	Name string    `json:"name" validate:"required"`
+	Name string `json:"name"`
 }
 
 func (p *Author) Validate() error {

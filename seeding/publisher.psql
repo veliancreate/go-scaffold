@@ -1,5 +1,0 @@
-INSERT INTO publisher (id, name, created_at, updated_at)
-  VALUES ('1c430cee-34ec-45e4-99b5-71bf0b6502c2', 'Penguin', '2022-03-01', '2022-03-01');
-
-INSERT INTO publisher (id, name, created_at, updated_at)
-  VALUES ('87159cff-bd36-4575-9678-bb4e10ab23a1', 'Hodder', '2022-03-01', '2022-03-01');

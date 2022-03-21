@@ -4,7 +4,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 	handlers "github.com/veliancreate/books-api/internal/handlers/book"
 	"github.com/veliancreate/books-api/internal/middleware"
-	"github.com/veliancreate/books-api/internal/store"
+	store "github.com/veliancreate/books-api/internal/store/filestore"
 )
 
 func getRouter() *httprouter.Router {
@@ -22,7 +22,7 @@ func getRouter() *httprouter.Router {
 		cors.AddHeaders,
 	}
 
-	store := store.NewInMemoryBookStore()
+	store := store.NewFileStore()
 
 	booksHandler := handlers.NewBookHandler(store, logger)
 

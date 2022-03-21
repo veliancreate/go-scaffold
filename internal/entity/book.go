@@ -7,11 +7,11 @@ import (
 
 type Book struct {
 	ID          uuid.UUID `json:"id"`
-	Title       string    `json:"title" validate:"required"`
-	Authors     []Author  `json:"authors" validate:"required"`
-	Publisher   Publisher `json:"publisher" validate:"required"`
-	PublishedAt string    `json:"published_at" validate:"required"`
-	Pages       int       `json:"pages" validate:"required"`
+	Title       string    `json:"title"`
+	Authors     []Author  `json:"authors"`
+	Publisher   Publisher `json:"publisher"`
+	PublishedAt string    `json:"published_at"`
+	Pages       int       `json:"pages"`
 }
 
 func (p *Book) Validate() error {
