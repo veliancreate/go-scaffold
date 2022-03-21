@@ -10,10 +10,11 @@ type InMemoryBookStore struct {
 }
 
 func NewInMemoryBookStore() *InMemoryBookStore {
+	id, _ := uuid.Parse("9dc991cf-4f73-4472-8275-e82089ca9edd")
 	return &InMemoryBookStore{
 		books: []entity.Book{
 			{
-				ID:    uuid.New(),
+				ID:    id,
 				Title: "Lord of the Rings",
 				Authors: []entity.Author{
 					{
@@ -30,11 +31,16 @@ func NewInMemoryBookStore() *InMemoryBookStore {
 	}
 }
 
-func (bs *InMemoryBookStore) List() ([]entity.Book, error) {
-	return bs.books, nil
+func (bs *InMemoryBookStore) List(page int) (entity.ListResponse, error) {
+	var response = entity.ListResponse{
+		TotalCount: len(bs.books),
+		Books:      bs.books,
+	}
+
+	return response, nil
 }
 
-func (bs *InMemoryBookStore) Update(id uuid.UUID, bookUpdateDetails entity.Book) (entity.Book, error) {
+func (bs *InMemoryBookStore) Update(id uuid.UUID, bookUpdateDetails entity.Book) (*entity.Book, error) {
 	var book *entity.Book
 
 	for i := 0; i < len(bs.books); i++ {
@@ -44,7 +50,7 @@ func (bs *InMemoryBookStore) Update(id uuid.UUID, bookUpdateDetails entity.Book)
 	}
 
 	if book == nil {
-		return *book, ErrNotFound
+		return book, ErrNotFound
 	}
 
 	book.Authors = bookUpdateDetails.Authors
@@ -57,13 +63,13 @@ func (bs *InMemoryBookStore) Update(id uuid.UUID, bookUpdateDetails entity.Book)
 
 	book.Pages = bookUpdateDetails.Pages
 
-	return *book, nil
+	return book, nil
 }
 
-func (bs *InMemoryBookStore) Create(bookUpdateDetails entity.Book) (entity.Book, error) {
+func (bs *InMemoryBookStore) Create(bookUpdateDetails entity.Book) (*entity.Book, error) {
 	bs.books = append(bs.books, bookUpdateDetails)
 
-	return bookUpdateDetails, nil
+	return &bookUpdateDetails, nil
 }
 
 func (bs *InMemoryBookStore) Delete(id uuid.UUID) error {

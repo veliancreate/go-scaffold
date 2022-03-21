@@ -25,9 +25,9 @@ func (l *Logger) Init(w http.ResponseWriter, r *http.Request, _ httprouter.Param
 }
 
 func (l *Logger) Info(message string) {
-	log.Printf("METHOD: %s; PATH: %s; MESSAGE: %s", l.method, l.path, message)
+	log.Printf("INFO: method: %s; path: %s; message: %s", l.method, l.path, message)
 }
 
 func (l *Logger) Error(message string) {
-	log.Printf("ERROR: METHOD: %s; PATH: %s; MESSAGE: %s", l.method, l.path, message)
+	log.Printf("ERROR: method: %s; path: %s; message: %s", l.method, l.path, message)
 }

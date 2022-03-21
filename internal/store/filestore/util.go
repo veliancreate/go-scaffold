@@ -46,3 +46,7 @@ func writeFile(books []entity.Book) error {
 
 	return nil
 }
+
+func pagination() {
+
+}

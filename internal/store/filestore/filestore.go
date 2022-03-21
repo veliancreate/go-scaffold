@@ -1,6 +1,9 @@
 package store
 
 import (
+	"sort"
+	"time"
+
 	"github.com/google/uuid"
 	"github.com/veliancreate/books-api/internal/entity"
 	"github.com/veliancreate/books-api/internal/store"
@@ -13,8 +16,55 @@ func NewFileStore() *FileStore {
 	return &FileStore{}
 }
 
-func (fs *FileStore) List() ([]entity.Book, error) {
-	return getBooks()
+type ByPublishedAt []entity.Book
+
+func (b ByPublishedAt) Len() int { return len(b) }
+
+func (b ByPublishedAt) Swap(i, j int) { b[i], b[j] = b[j], b[i] }
+
+func (b ByPublishedAt) Less(i, j int) bool {
+	patOne, _ := time.Parse(time.RFC822, b[i].PublishedAt)
+
+	patTwo, _ := time.Parse(time.RFC822, b[j].PublishedAt)
+
+	return patOne.Before(patTwo)
+}
+
+const limit = 10
+
+func (fs *FileStore) List(page int) (entity.ListResponse, error) {
+	var response = entity.ListResponse{}
+
+	books, err := getBooks()
+	if err != nil {
+		return response, err
+	}
+
+	response.TotalCount = len(books)
+
+	if len(books) < limit || page == 0 {
+		response.Books = books
+		return response, nil
+	}
+
+	sort.Sort(ByPublishedAt(books))
+
+	first := limit*page - limit
+
+	last := first + limit
+
+	if first >= len(books) {
+		response.Books = []entity.Book{}
+		return response, nil
+	}
+
+	if last >= len(books) {
+		response.Books = books[first : len(books)-1]
+		return response, nil
+	}
+
+	response.Books = books[first:last]
+	return response, nil
 }
 
 func (fs *FileStore) Create(bookToCreate entity.Book) (*entity.Book, error) {

@@ -4,12 +4,34 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/julienschmidt/httprouter"
 )
 
 func (h *BookHandler) ListBooks(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	books, err := h.store.List()
+	var err error
+
+	var page = 0
+
+	pageQuery := r.URL.Query().Get("page")
+
+	if pageQuery != "" {
+		page, err = strconv.Atoi(pageQuery)
+		if err != nil {
+			h.logger.Error(fmt.Sprintf("error converting page to int: %v", err))
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+	}
+
+	if page < 0 {
+		h.logger.Error(fmt.Sprintf("page is less than 0: %v", err))
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	books, err := h.store.List(page)
 	if err != nil {
 		h.logger.Error(fmt.Sprintf("error listing books: %v", err))
 		w.WriteHeader(http.StatusInternalServerError)

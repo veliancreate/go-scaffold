@@ -1,7 +1,7 @@
 [
  {
   "id": "98e4e8be-a790-41cb-8555-899e58840d20",
-  "title": "Blood Clot1",
+  "title": "Harry Potter",
   "authors": [
    {
     "name": "J.K Rowling"
@@ -12,5 +12,19 @@
   },
   "published_at": "1900-01-01",
   "pages": 100
+ },
+ {
+  "id": "07f67d9c-c55f-4459-bdd7-551e985ec3dd",
+  "title": "Harry Potter",
+  "authors": [
+   {
+    "name": "J.K Rowling"
+   }
+  ],
+  "publisher": {
+   "name": "Hodder"
+  },
+  "published_at": "1st January 1999",
+  "pages": 2000
  }
 ]

@@ -5,6 +5,11 @@ import (
 	"github.com/google/uuid"
 )
 
+type ListResponse struct {
+	Books      []Book `json:"books"`
+	TotalCount int    `json:"total_count"`
+}
+
 type Book struct {
 	ID          uuid.UUID `json:"id"`
 	Title       string    `json:"title"`
