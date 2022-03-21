@@ -18,7 +18,7 @@ func (h *BookHandler) Delete(w http.ResponseWriter, r *http.Request, p httproute
 		return
 	}
 
-	err = h.store.Delete(parsedID)
+	err = h.store.Delete(r.Context(), parsedID)
 	if err != nil {
 		h.logger.Error(fmt.Sprintf("error deleting book %v", err))
 		w.WriteHeader(http.StatusBadRequest)

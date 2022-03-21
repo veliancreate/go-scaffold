@@ -1,15 +1,17 @@
 package bookhandler
 
 import (
+	"context"
+
 	"github.com/google/uuid"
 	"github.com/veliancreate/books-api/internal/entity"
 )
 
 type BookStore interface {
-	List() ([]entity.Book, error)
-	Create(bookDetails entity.Book) (entity.Book, error)
-	Delete(id uuid.UUID) error
-	Update(id uuid.UUID, bookDetails entity.Book) (entity.Book, error)
+	List(ctx context.Context) ([]entity.Book, error)
+	Create(ctx context.Context, book entity.Book) (entity.Book, error)
+	Delete(ctx context.Context, id uuid.UUID) error
+	Update(ctx context.Context, id uuid.UUID, bookDetails entity.Book) (entity.Book, error)
 }
 
 type Logger interface {

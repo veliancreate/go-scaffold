@@ -9,7 +9,7 @@ import (
 )
 
 func (h *BookHandler) ListBooks(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	books, err := h.store.List()
+	books, err := h.store.List(r.Context())
 	if err != nil {
 		h.logger.Error(fmt.Sprintf("error listing books: %v", err))
 		w.WriteHeader(http.StatusInternalServerError)

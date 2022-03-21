@@ -42,7 +42,7 @@ func (h *BookHandler) Update(w http.ResponseWriter, r *http.Request, p httproute
 		return
 	}
 
-	updatedBook, err := h.store.Update(parsedID, *updateDetails)
+	updatedBook, err := h.store.Update(r.Context(), parsedID, *updateDetails)
 	if err != nil {
 		h.logger.Error(fmt.Sprintf("could not update book: %v", err))
 		w.WriteHeader(http.StatusInternalServerError)

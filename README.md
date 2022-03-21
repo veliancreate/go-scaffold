@@ -4,4 +4,6 @@
 - Run `make createdb`
 - Install `golang-migrate` https://github.com/golang-migrate/migrate
 - Run `make migrateup`
+- To seed you can run `make seed`
+
 

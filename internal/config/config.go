@@ -5,7 +5,11 @@ type ServerConfig struct {
 }
 
 type DBConfig struct {
-	URL string
+	Host     string
+	Port     string
+	User     string
+	Password string
+	DbName   string
 }
 
 type Config struct {
@@ -19,7 +23,11 @@ func NewConfig() *Config {
 			Port: "8000",
 		},
 		DB: DBConfig{
-			URL: "postgres://postgres:postgres@localhost:5432/book_store",
+			Host:     "localhost",
+			Port:     "5432",
+			User:     "postgres",
+			Password: "postgres",
+			DbName:   "book_store",
 		},
 	}
 }
