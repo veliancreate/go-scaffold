@@ -8,7 +8,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/veliancreate/books-api/internal/middleware"
-	"github.com/veliancreate/books-api/internal/store"
+	store "github.com/veliancreate/books-api/internal/store/in_memory"
 )
 
 const updateBody = `

@@ -1,10 +1,11 @@
-package store
+package in_memory_store
 
 import (
 	"context"
 
 	"github.com/google/uuid"
 	"github.com/veliancreate/books-api/internal/entity"
+	"github.com/veliancreate/books-api/internal/store"
 )
 
 type InMemoryBookStore struct {
@@ -52,7 +53,7 @@ func (bs *InMemoryBookStore) Update(ctx context.Context, id uuid.UUID, bookUpdat
 	}
 
 	if book == nil {
-		return book, ErrNotFound
+		return book, store.ErrNotFound
 	}
 
 	book.Authors = bookUpdateDetails.Authors

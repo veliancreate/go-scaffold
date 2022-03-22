@@ -4,7 +4,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 	handlers "github.com/veliancreate/books-api/internal/handlers/book"
 	"github.com/veliancreate/books-api/internal/middleware"
-	store "github.com/veliancreate/books-api/internal/store/filestore"
+	store "github.com/veliancreate/books-api/internal/store/file_store"
 )
 
 func getRouter() *httprouter.Router {
