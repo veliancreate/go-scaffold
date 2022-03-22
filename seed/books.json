@@ -10,12 +10,26 @@
   "publisher": {
    "name": "Hodder"
   },
-  "published_at": "1900-01-01",
+  "published_at": "1997-01-01",
   "pages": 100
  },
  {
   "id": "07f67d9c-c55f-4459-bdd7-551e985ec3dd",
-  "title": "Harry Potter",
+  "title": "Lord of the Rings",
+  "authors": [
+   {
+    "name": "JRR Tolken"
+   }
+  ],
+  "publisher": {
+   "name": "Penguin"
+  },
+  "published_at": "1900-01-01",
+  "pages": 2000
+ },
+ {
+  "id": "ba14a180-6ab9-4244-98e8-1c387711c78b",
+  "title": "Harry Potter 2",
   "authors": [
    {
     "name": "J.K Rowling"
@@ -24,7 +38,7 @@
   "publisher": {
    "name": "Hodder"
   },
-  "published_at": "1st January 1999",
+  "published_at": "1999-01-01",
   "pages": 2000
  }
 ]
