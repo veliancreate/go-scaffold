@@ -31,7 +31,7 @@ func (h *BookHandler) ListBooks(w http.ResponseWriter, r *http.Request, _ httpro
 		return
 	}
 
-	books, err := h.store.List(page)
+	books, err := h.store.List(r.Context(), page)
 	if err != nil {
 		h.logger.Error(fmt.Sprintf("error listing books: %v", err))
 		w.WriteHeader(http.StatusInternalServerError)

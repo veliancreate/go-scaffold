@@ -33,7 +33,7 @@ func (h *BookHandler) Create(w http.ResponseWriter, r *http.Request, _ httproute
 		return
 	}
 
-	createdBook, err := h.store.Create(*bookToCreate)
+	createdBook, err := h.store.Create(r.Context(), *bookToCreate)
 	if err != nil {
 		h.logger.Error(fmt.Sprintf("could not create book: %v", err))
 		w.WriteHeader(http.StatusInternalServerError)

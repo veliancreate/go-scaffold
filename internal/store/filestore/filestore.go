@@ -1,6 +1,7 @@
 package store
 
 import (
+	"context"
 	"sort"
 	"time"
 
@@ -32,7 +33,7 @@ func (b ByPublishedAt) Less(i, j int) bool {
 
 const limit = 10
 
-func (fs *FileStore) List(page int) (entity.ListResponse, error) {
+func (fs *FileStore) List(ctx context.Context, page int) (entity.ListResponse, error) {
 	var response = entity.ListResponse{}
 
 	books, err := getBooks()
@@ -67,7 +68,7 @@ func (fs *FileStore) List(page int) (entity.ListResponse, error) {
 	return response, nil
 }
 
-func (fs *FileStore) Create(bookToCreate entity.Book) (*entity.Book, error) {
+func (fs *FileStore) Create(ctx context.Context, bookToCreate entity.Book) (*entity.Book, error) {
 	books, err := getBooks()
 	if err != nil {
 		return &bookToCreate, err
@@ -85,7 +86,7 @@ func (fs *FileStore) Create(bookToCreate entity.Book) (*entity.Book, error) {
 	return &bookToCreate, nil
 }
 
-func (fs *FileStore) Update(id uuid.UUID, bookUpdateDetails entity.Book) (*entity.Book, error) {
+func (fs *FileStore) Update(ctx context.Context, id uuid.UUID, bookUpdateDetails entity.Book) (*entity.Book, error) {
 	var book *entity.Book
 
 	books, err := getBooks()
@@ -123,7 +124,7 @@ func (fs *FileStore) Update(id uuid.UUID, bookUpdateDetails entity.Book) (*entit
 	return book, nil
 }
 
-func (fs *FileStore) Delete(id uuid.UUID) error {
+func (fs *FileStore) Delete(ctx context.Context, id uuid.UUID) error {
 	books, err := getBooks()
 	if err != nil {
 		return err

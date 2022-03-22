@@ -1,6 +1,8 @@
 package store
 
 import (
+	"context"
+
 	"github.com/google/uuid"
 	"github.com/veliancreate/books-api/internal/entity"
 )
@@ -31,7 +33,7 @@ func NewInMemoryBookStore() *InMemoryBookStore {
 	}
 }
 
-func (bs *InMemoryBookStore) List(page int) (entity.ListResponse, error) {
+func (bs *InMemoryBookStore) List(ctx context.Context, page int) (entity.ListResponse, error) {
 	var response = entity.ListResponse{
 		TotalCount: len(bs.books),
 		Books:      bs.books,
@@ -40,7 +42,7 @@ func (bs *InMemoryBookStore) List(page int) (entity.ListResponse, error) {
 	return response, nil
 }
 
-func (bs *InMemoryBookStore) Update(id uuid.UUID, bookUpdateDetails entity.Book) (*entity.Book, error) {
+func (bs *InMemoryBookStore) Update(ctx context.Context, id uuid.UUID, bookUpdateDetails entity.Book) (*entity.Book, error) {
 	var book *entity.Book
 
 	for i := 0; i < len(bs.books); i++ {
@@ -66,13 +68,13 @@ func (bs *InMemoryBookStore) Update(id uuid.UUID, bookUpdateDetails entity.Book)
 	return book, nil
 }
 
-func (bs *InMemoryBookStore) Create(bookUpdateDetails entity.Book) (*entity.Book, error) {
+func (bs *InMemoryBookStore) Create(ctx context.Context, bookUpdateDetails entity.Book) (*entity.Book, error) {
 	bs.books = append(bs.books, bookUpdateDetails)
 
 	return &bookUpdateDetails, nil
 }
 
-func (bs *InMemoryBookStore) Delete(id uuid.UUID) error {
+func (bs *InMemoryBookStore) Delete(ctx context.Context, id uuid.UUID) error {
 	var newBooks []entity.Book
 
 	for i := 0; i < len(bs.books); i++ {
