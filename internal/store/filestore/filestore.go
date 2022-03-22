@@ -11,10 +11,14 @@ import (
 )
 
 type FileStore struct {
+	ioManager FileIOManager
 }
 
 func NewFileStore() *FileStore {
-	return &FileStore{}
+	ioManager := NewFileIO("seeding/books.json")
+	return &FileStore{
+		ioManager,
+	}
 }
 
 type ByPublishedAt []entity.Book
@@ -36,7 +40,7 @@ const limit = 10
 func (fs *FileStore) List(ctx context.Context, page int) (entity.ListResponse, error) {
 	var response = entity.ListResponse{}
 
-	books, err := getBooks()
+	books, err := fs.ioManager.ReadFile()
 	if err != nil {
 		return response, err
 	}
@@ -69,7 +73,7 @@ func (fs *FileStore) List(ctx context.Context, page int) (entity.ListResponse, e
 }
 
 func (fs *FileStore) Create(ctx context.Context, bookToCreate entity.Book) (*entity.Book, error) {
-	books, err := getBooks()
+	books, err := fs.ioManager.ReadFile()
 	if err != nil {
 		return &bookToCreate, err
 	}
@@ -78,7 +82,7 @@ func (fs *FileStore) Create(ctx context.Context, bookToCreate entity.Book) (*ent
 
 	books = append(books, bookToCreate)
 
-	err = writeFile(books)
+	err = fs.ioManager.WriteFile(books)
 	if err != nil {
 		return &bookToCreate, err
 	}
@@ -89,7 +93,7 @@ func (fs *FileStore) Create(ctx context.Context, bookToCreate entity.Book) (*ent
 func (fs *FileStore) Update(ctx context.Context, id uuid.UUID, bookUpdateDetails entity.Book) (*entity.Book, error) {
 	var book *entity.Book
 
-	books, err := getBooks()
+	books, err := fs.ioManager.ReadFile()
 	if err != nil {
 		return book, err
 	}
@@ -116,7 +120,7 @@ func (fs *FileStore) Update(ctx context.Context, id uuid.UUID, bookUpdateDetails
 		book.Pages = bookUpdateDetails.Pages
 	}
 
-	err = writeFile(books)
+	err = fs.ioManager.WriteFile(books)
 	if err != nil {
 		return book, err
 	}
@@ -125,7 +129,7 @@ func (fs *FileStore) Update(ctx context.Context, id uuid.UUID, bookUpdateDetails
 }
 
 func (fs *FileStore) Delete(ctx context.Context, id uuid.UUID) error {
-	books, err := getBooks()
+	books, err := fs.ioManager.ReadFile()
 	if err != nil {
 		return err
 	}
@@ -138,7 +142,7 @@ func (fs *FileStore) Delete(ctx context.Context, id uuid.UUID) error {
 		}
 	}
 
-	err = writeFile(newBooks)
+	err = fs.ioManager.WriteFile(newBooks)
 	if err != nil {
 		return err
 	}

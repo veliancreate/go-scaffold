@@ -9,10 +9,25 @@ import (
 	"github.com/veliancreate/books-api/internal/entity"
 )
 
-func getBooks() ([]entity.Book, error) {
+type FileIOManager interface {
+	ReadFile() ([]entity.Book, error)
+	WriteFile(books []entity.Book) error
+}
+
+type FileIO struct {
+	path string
+}
+
+func NewFileIO(path string) *FileIO {
+	return &FileIO{
+		path,
+	}
+}
+
+func (f *FileIO) ReadFile() ([]entity.Book, error) {
 	var books []entity.Book
 
-	jsonFile, err := os.Open("seed/books.json")
+	jsonFile, err := os.Open(f.path)
 
 	if err != nil {
 		return books, fmt.Errorf("error opening json file %w", err)
@@ -33,20 +48,16 @@ func getBooks() ([]entity.Book, error) {
 	return books, nil
 }
 
-func writeFile(books []entity.Book) error {
+func (f *FileIO) WriteFile(books []entity.Book) error {
 	file, err := json.MarshalIndent(books, "", " ")
 	if err != nil {
 		return fmt.Errorf("error marshal indent json %w", err)
 	}
 
-	err = ioutil.WriteFile("seed/books.json", file, 0644)
+	err = ioutil.WriteFile(f.path, file, 0644)
 	if err != nil {
 		return fmt.Errorf("error writing file %w", err)
 	}
 
 	return nil
-}
-
-func pagination() {
-
 }
